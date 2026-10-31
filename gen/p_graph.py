@@ -114,6 +114,41 @@ P("graph", GB, "graph-bfs-level", "BFS এ Level (Shortest Path)",
   E("Monk and the Islands — 1 থেকে n এ সবচেয়ে কম bridge", "int t;\ncin >> t;\nwhile (t--)\n{\n    int nodes, e;\n    cin >> nodes >> e;\n    for (int i = 0; i <= nodes; i++)\n    {\n        g[i].clear();\n        vis[i] = 0;\n        level[i] = 0;\n    }\n    for (int i = 0; i < e; i++)\n    {\n        int u, v;\n        cin >> u >> v;\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    bfs(1);\n    cout << level[nodes] << endl;\n}",
     "প্রশ্নে 1 নম্বর দ্বীপ থেকে n নম্বর দ্বীপে কম সংখ্যক bridge পার হয়ে যেতে হবে। প্রতি test এ আগে g, vis, level পরিষ্কার করা হয়, তারপর bfs(1) চালিয়ে level[n] ছাপা হয়।", "2\n3 2\n1 2\n2 3\n4 4\n1 2\n2 3\n3 4\n1 4", LVL))
 
+PATHB = """const int mx = 1e3;
+vector<vector<int>> g(mx);
+bool vis[mx];
+int level[mx], parent[mx];
+
+void bfs(int source)
+{
+    queue<int> q;
+    q.push(source);
+    vis[source] = 1;
+    level[source] = 0;
+    parent[source] = 0;
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        for (auto v : g[u])
+        {
+            if (!vis[v])
+            {
+                vis[v] = 1;
+                level[v] = level[u] + 1;
+                parent[v] = u;
+                q.push(v);
+            }
+        }
+    }
+}"""
+PATHMAIN = READ + "int source, target;\ncin >> source >> target;\nbfs(source);\ncout << \"দূরত্ব = \" << level[target] << \"\\n\";\nvector<int> path;\nfor (int v = target; v != 0; v = parent[v])\n    path.push_back(v);\nreverse(path.begin(), path.end());\nfor (int i = 0; i < (int)path.size(); i++)\n{\n    if (i) cout << \" -> \";\n    cout << path[i];\n}\ncout << \"\\n\";"
+P("graph", GB, "graph-bfs-path", "BFS দিয়ে আসল পথ বের করা (parent[])",
+  "শুধু দূরত্ব জানলে হয় না, অনেক সময় পুরো পথটাও লাগে। BFS এ নতুন node v পাওয়ার সময় parent[v] = u লিখে রাখলে প্রতিটা node জানে সে কোথা থেকে এসেছে। গন্তব্য থেকে parent ধরে ধরে পিছিয়ে সোর্সে পৌঁছালেই পুরো পথ পাওয়া যায় (উল্টো ক্রমে, তাই শেষে reverse করতে হয়)।",
+  "parent[child] = current_vertex;\nfor (int v = target; v != 0; v = parent[v])\n    path.push_back(v);\nreverse(path.begin(), path.end());", "O(N + E)",
+  E("1 থেকে 6 এ যাওয়ার পথ", PATHMAIN, "level[6] = 3, অর্থাৎ ৩টা edge। parent ধরে 6 → 4 → 2 → 1 এসে reverse করে পাওয়া গেছে পথ।", G1 + "\n1 6", PATHB),
+  E("3 থেকে 4 এ যাওয়ার পথ", PATHMAIN, "source বদলালে পথও বদলায়। এখানে 3 → 1 → 2 → 4, আবার ৩টা edge।", G1 + "\n3 4", PATHB))
+
 GRIDPRE = """int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
 int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
 bool vis[1000][1000];
@@ -213,6 +248,33 @@ P("graph", GD, "graph-dfs-luv", "DFS এর ৪টা জায়গা (Enter 
   E("Depth আর Subtree Size", "int n, m;\ncin >> n >> m;\nfor (int i = 0; i < m; i++)\n{\n    int v1, v2;\n    cin >> v1 >> v2;\n    g[v1].push_back(v2);\n    g[v2].push_back(v1);\n}\ndfs(1, 0);\nfor (int i = 1; i <= n; i++)\n    cout << \"node \" << i << \" : depth = \" << depth[i] << \", subtree size = \" << sz[i] << endl;",
     "depth নির্ধারণ হয় child এ ঢোকার আগে (depth[child] = depth[v] + 1)। আর subtree size নির্ধারণ হয় child থেকে ফিরে এসে (sz[v] += sz[child])। এই দুই জায়গার পার্থক্যই এই পেজের মূল শিক্ষা।", TREE,
     "const int N = 1e5 + 10;\nvector<int> g[N];\nint depth[N], sz[N];\n\nvoid dfs(int v, int par)\n{\n    sz[v] = 1;\n    for (int child : g[v])\n    {\n        if (child == par) continue;\n        depth[child] = depth[v] + 1;\n        dfs(child, v);\n        sz[v] += sz[child];\n    }\n}"))
+
+COLB = """const int N = 1e5 + 10;
+vector<int> adj[N];
+int color[N];   // 0 = সাদা, 1 = ধূসর, 2 = কালো
+bool has_cycle = false;
+
+void dfs(int u)
+{
+    color[u] = 1;
+    for (int v : adj[u])
+    {
+        if (color[v] == 0)
+            dfs(v);
+        else if (color[v] == 1)
+        {
+            cout << "Back edge: " << u << " -> " << v << "\\n";
+            has_cycle = true;
+        }
+    }
+    color[u] = 2;
+}"""
+COLMAIN = "int n, e;\ncin >> n >> e;\nfor (int i = 0; i < e; i++)\n{\n    int u, v;\n    cin >> u >> v;\n    adj[u].push_back(v);\n}\nfor (int i = 1; i <= n; i++)\n    if (color[i] == 0) dfs(i);\ncout << (has_cycle ? \"Cycle আছে\" : \"Cycle নেই\") << \"\\n\";"
+P("graph", GD, "graph-dfs-color", "DFS এর ৩ রং ও Back Edge",
+  "DFS এ প্রতিটা node কে তিন রঙে ভাবা যায়: সাদা (এখনো দেখিনি), ধূসর (ঢুকেছি কিন্তু এর থেকে যাওয়ার পথগুলো শেষ হয়নি, মানে recursion এখনো চলছে), কালো (পুরো কাজ শেষ)। DFS চলার সময় কোনো ধূসর node থেকে আরেকটা ধূসর node এ যেতে চাইলে সেটা back edge, আর back edge মানেই graph এ cycle আছে।",
+  "if (color[v] == 0) dfs(v);          // tree edge\nelse if (color[v] == 1) { /* back edge → cycle */ }", "O(N + E)",
+  E("Cycle আছে (directed graph)", COLMAIN, "1 → 2 → 3 → 4 এ নেমে 4 থেকে 2 এ যেতে চেয়েছে, কিন্তু 2 তখনো ধূসর (কাজ চলছে)। তাই 4 → 2 একটা back edge, আর 2 → 3 → 4 → 2 একটা cycle।", "4 4\n1 2\n2 3\n3 4\n4 2", COLB),
+  E("Cycle নেই (DAG)", COLMAIN, "3 থেকে 4 এ যেতে চেয়ে দেখা গেল 4 কালো, অর্থাৎ 4 এর কাজ আগেই শেষ। কালো node এ যাওয়া back edge না, তাই cycle ধরা পড়েনি।", "4 4\n1 2\n1 3\n2 4\n3 4", COLB))
 
 DGRID = """int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
 int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};

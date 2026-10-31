@@ -75,18 +75,23 @@ export default function BfsDfsAnim({ onOpen }) {
   const fig = useMemo(() => {
     const order = Object.fromEntries(st.done.map((n, i) => [n, i + 1]));
     const waiting = new Set(st.wait);
+    // level = root থেকে কত edge দূরে (tree edge ধরে)
+    const depth = { 1: 0 };
+    st.tree.forEach(([p, q]) => { depth[q] = (depth[p] ?? 0) + 1; });
     const nodes = Object.entries(POS).map(([id, [x, y]]) => {
       const n = +id;
       let c = "n";
       if (n === st.cur) c = "a";
       else if (waiting.has(n)) c = "q";
       else if (order[n]) c = "v";
-      return { id: n, x, y, s: c, sub: order[n] ? `#${order[n]}` : "" };
+      const seen = order[n] || waiting.has(n);
+      const sub = !seen ? "" : mode === "bfs" ? `L${depth[n] ?? 0}` : `#${order[n]}`;
+      return { id: n, x, y, s: c, sub };
     });
     const isTree = (a, b) => st.tree.some(([p, q]) => (p === a && q === b) || (p === b && q === a));
     const edges = EDGES.map(([a, b]) => ({ a, b, s: isTree(a, b) ? "t" : "n" }));
     return { w: 510, h: 280, r: 20, nodes, edges, caption: `${M.label} এর ধাপ` };
-  }, [st, M.label]);
+  }, [st, M.label, mode]);
 
   const tone = mode === "bfs" ? { on: "bg-rose-600 text-white", ring: "border-rose-200", btn: "bg-rose-600 hover:bg-rose-700", chip: "bg-sky-100 text-sky-900 ring-sky-300" } : { on: "bg-violet-600 text-white", ring: "border-violet-200", btn: "bg-violet-600 hover:bg-violet-700", chip: "bg-sky-100 text-sky-900 ring-sky-300" };
 

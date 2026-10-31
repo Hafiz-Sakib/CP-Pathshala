@@ -22,11 +22,17 @@ export default function App() {
     window.addEventListener("popstate", pop);
     return () => window.removeEventListener("popstate", pop);
   }, []);
-  useEffect(() => { window.scrollTo({ top: 0 }); }, [s.tab, s.pid]);
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [s.tab, s.pid]);
 
   const go = (tab, pid = null) => {
     setS({ tab, pid });
-    window.history.pushState(null, "", pid ? `/?p=${pid}` : tab === "home" ? "/" : `/?tab=${tab}`);
+    window.history.pushState(
+      null,
+      "",
+      pid ? `/?p=${pid}` : tab === "home" ? "/" : `/?tab=${tab}`,
+    );
   };
   const openPage = (pid) => go(pages[index[pid]].grp, pid);
   const current = tabs.find((t) => t.id === s.tab);
@@ -35,9 +41,18 @@ export default function App() {
     <div className="flex min-h-screen flex-col">
       <Navbar tab={s.tab} onSelect={(id) => go(id)} />
       <main key={s.tab + (s.pid || "")} className="animate-fade-in flex-1">
-        {s.pid ? <LessonPage page={pages[index[s.pid]]} i={index[s.pid]} onOpen={openPage} onIndex={() => go(s.tab)} />
-          : current ? <GroupIndex tab={current} onOpen={openPage} />
-          : <Home onSelect={(id) => go(id)} onOpen={openPage} />}
+        {s.pid ? (
+          <LessonPage
+            page={pages[index[s.pid]]}
+            i={index[s.pid]}
+            onOpen={openPage}
+            onIndex={() => go(s.tab)}
+          />
+        ) : current ? (
+          <GroupIndex tab={current} onOpen={openPage} />
+        ) : (
+          <Home onSelect={(id) => go(id)} onOpen={openPage} />
+        )}
       </main>
       <Footer />
     </div>

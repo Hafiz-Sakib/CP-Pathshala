@@ -183,16 +183,67 @@ export default function Home({ onSelect, onOpen }) {
         <div className="grid items-start gap-8 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="text-sm font-bold text-rose-700">লাইভ অ্যানিমেশন · গ্রাফ থিওরি</p>
-            <h2 className="mt-1 text-xl sm:text-2xl">BFS আর DFS — পাশাপাশি দেখো</h2>
-            <p className="mt-2 text-base text-slate-600">একই tree-তে (উপর থেকে নিচে, প্রতি node এর অনেক branch) দুইভাবে হাঁটা। <strong>BFS</strong> কাছের node আগে ধরে — ঢেউয়ের মতো ছড়ায়, সাথে থাকে <strong>queue</strong>। <strong>DFS</strong> একদম গভীরে চলে যায়, আটকে গেলে ফিরে আসে — সাথে থাকে <strong>stack</strong>।</p>
+            <h2 className="mt-1 text-xl sm:text-2xl">BFS আর DFS — একই tree-তে পাশাপাশি</h2>
+            <p className="mt-2 text-base text-slate-600">একটা tree-তে root থেকে শুরু, নিচে নামলে প্রতি node এর অনেকগুলো branch। এই একই tree-তে দুইভাবে হাঁটলে কী হয়, বাটন চেপে নিজের চোখে দেখো।</p>
             <ul className="mt-3 space-y-1.5 text-base text-slate-700">
-              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span>হলুদ = এখন যে node এ আছি</span></li>
-              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span>নীল = queue / stack এ অপেক্ষায়</span></li>
-              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span>সবুজ = visited, নিচের <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">#১, #২…</code> = কত নম্বরে দেখা হলো</span></li>
+              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span><strong>BFS</strong> আগে কাছের সবাইকে ধরে — প্রতিটা স্তরকে বলে level (L০, L১, L২…)। সাথে থাকে <strong>queue</strong>।</span></li>
+              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-violet-600" /><span><strong>DFS</strong> একটা পথে একদম গভীরে যায়, আটকে গেলে ফিরে এসে অন্য পথ ধরে। সাথে থাকে <strong>stack</strong> (recursion)।</span></li>
+              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-emerald-600" /><span>হলুদ = এখন যেখানে আছি, নীল = অপেক্ষায়, সবুজ = দেখা শেষ। সবুজ মোটা edge গুলো মিলে হয় <strong>BFS tree / DFS tree</strong>।</span></li>
             </ul>
             <p className="mt-3 text-base text-slate-600">উপরের বাটনে BFS ↔ DFS বদলে দেখো — একই tree-তে visit order কেমন আলাদা হয়ে যায়।</p>
           </div>
           <BfsDfsAnim onOpen={onOpen} />
+        </div>
+
+        {/* ধারণার কার্ড */}
+        <div className="mt-10 grid items-stretch gap-6 md:grid-cols-2">
+          <article className="flex h-full flex-col rounded-3xl border border-rose-200 bg-white p-6 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-rose-100 text-lg font-bold text-rose-700">BFS</span>
+              <div><h3 className="text-xl">স্তরে স্তরে ঢেউ</h3><p className="text-sm text-slate-500">Breadth First Search · queue</p></div>
+            </div>
+            <ul className="mt-4 flex-1 space-y-2.5 text-base text-slate-700">
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span><strong>level ধারণা:</strong> source হলো level ০। সরাসরি যাওয়া যায় যাদের কাছে তারা level ১, তাদের থেকে নতুন যাদের পাওয়া যায় তারা level ২ — এভাবে বাড়ে।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span><strong>shortest path:</strong> যে node যত নম্বর level এ ধরা পড়ে, source থেকে তার ছোট পথও তত edge এর। তাই সব edge সমান খরচের (unweighted) graph এ BFS-ই shortest path।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span><strong>queue = বাসের লাইন:</strong> যে আগে ঢুকেছে সে আগে বের হয় (FIFO)। তাই ছোট level এর node সামনে, বড় level পেছনে — ছোট level আগে শেষ হয়।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span><strong>পথ ফেরত পাওয়া:</strong> প্রতিটা node কোথা থেকে এসেছে তা <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">parent[ ]</code> এ লিখে রাখলে গন্তব্য থেকে পিছিয়ে পুরো পথ পাওয়া যায়।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span><strong>খরচ:</strong> প্রতিটা node আর edge একবার করে — <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">O(V + E)</code>। grid বা maze এও একইভাবে চলে, শুধু node = (row, column)।</span></li>
+            </ul>
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1">
+              <button onClick={() => onOpen("graph-bfs")} className="text-base font-bold text-rose-700 hover:underline">BFS শেখো →</button>
+              <button onClick={() => onOpen("graph-bfs-path")} className="text-base font-bold text-rose-700 hover:underline">পথ বের করা →</button>
+              <button onClick={() => onOpen("graph-bfs-grid")} className="text-base font-bold text-rose-700 hover:underline">Grid এ BFS →</button>
+            </div>
+          </article>
+
+          <article className="flex h-full flex-col rounded-3xl border border-violet-200 bg-white p-6 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-violet-100 text-lg font-bold text-violet-700">DFS</span>
+              <div><h3 className="text-xl">গভীরে গিয়ে ফেরা</h3><p className="text-sm text-slate-500">Depth First Search · recursion / stack</p></div>
+            </div>
+            <ul className="mt-4 flex-1 space-y-2.5 text-base text-slate-700">
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-violet-600" /><span><strong>গোলকধাঁধার মতো:</strong> একটা পথ ধরে যতদূর পারো যাও। আর যাওয়ার জায়গা না থাকলে এক ধাপ পিছিয়ে (backtrack) অন্য পথ ধরো। recursion এই ফেরার কাজটা নিজেই মনে রাখে।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-violet-600" /><span><strong>তিন রং:</strong> সাদা = এখনো দেখিনি, ধূসর = ঢুকেছি কিন্তু কাজ চলছে, কালো = পুরো শেষ।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-violet-600" /><span><strong>back edge = cycle:</strong> ধূসর node থেকে আবার ধূসর node এ যেতে চাইলে সেটা back edge, মানে graph এ cycle আছে। সাদা node এ যাওয়া edge হলো tree edge।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-violet-600" /><span><strong>ঢোকা-বেরোনোর সময়:</strong> প্রতিটা node এ কখন ঢুকলাম আর কখন বেরোলাম লিখে রাখলে topological sort, subtree size, component — সবই সহজ হয়ে যায়।</span></li>
+              <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-violet-600" /><span><strong>খরচ ও সাবধান:</strong> এরও <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">O(V + E)</code>। কিন্তু খুব লম্বা chain হলে recursion অনেক গভীরে গিয়ে stack overflow হতে পারে। আর DFS shortest path দেয় না।</span></li>
+            </ul>
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1">
+              <button onClick={() => onOpen("graph-dfs")} className="text-base font-bold text-violet-700 hover:underline">DFS শেখো →</button>
+              <button onClick={() => onOpen("graph-dfs-color")} className="text-base font-bold text-violet-700 hover:underline">৩ রং ও back edge →</button>
+              <button onClick={() => onOpen("graph-dfs-luv")} className="text-base font-bold text-violet-700 hover:underline">Enter / Exit →</button>
+            </div>
+          </article>
+        </div>
+
+        {/* কখন কোনটা */}
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
+          <h3 className="text-lg">কখন কোনটা?</h3>
+          <div className="mt-3 grid gap-3 text-base text-slate-700 sm:grid-cols-3">
+            <p className="rounded-xl bg-rose-50 p-3 ring-1 ring-rose-200"><strong className="text-rose-700">কম ধাপে পৌঁছানো</strong><br />unweighted graph এ shortest path, maze, level অনুযায়ী কাজ → <strong>BFS</strong></p>
+            <p className="rounded-xl bg-violet-50 p-3 ring-1 ring-violet-200"><strong className="text-violet-700">সব ঘুরে দেখা</strong><br />cycle, connected component, topological sort, সব পথ খোঁজা → <strong>DFS</strong></p>
+            <p className="rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200"><strong className="text-amber-700">edge এ আলাদা খরচ?</strong><br />weight থাকলে BFS চলে না — <button onClick={() => onOpen("graph-dijkstra")} className="font-bold text-amber-800 underline">Dijkstra</button> লাগবে (negative cycle থাকলে Bellman-Ford)</p>
+          </div>
         </div>
       </Reveal>
 
