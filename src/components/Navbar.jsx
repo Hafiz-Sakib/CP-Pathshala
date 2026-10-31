@@ -38,16 +38,16 @@ export default function Navbar({ tab, onSelect }) {
     <header className="no-print sticky top-0 z-40 h-16 bg-white/95 backdrop-blur border-b-[3px] border-brand-red shadow-sm">
       <div ref={ref} className="relative mx-auto flex h-full max-w-[90rem] items-center justify-between px-3 sm:px-6">
         <button onClick={() => onSelect("home")} className="flex items-center gap-2 text-left" aria-label="হোম পেজে যাও">
-          <img src="/icon.svg" alt="সি++ লোগো" className="h-9 w-auto sm:h-10 xl:h-12 rounded-lg" />
+          <img src="/icon.svg" alt="কম্পিটিটিভ প্রোগ্রামিং পাঠশালা লোগো" className="h-9 w-auto sm:h-10 xl:h-12 rounded-lg" />
           <span className="h-8 w-px bg-slate-300" />
-          <span className="font-bold text-brand-ink leading-tight text-base sm:text-lg">সি++ শিখি<br className="sm:hidden" /> বাংলায়</span>
+          <span className="font-bold text-brand-ink leading-tight text-[0.85rem] sm:text-base lg:text-lg">কম্পিটিটিভ প্রোগ্রামিং<br />পাঠশালা</span>
         </button>
 
         <nav className="hidden xl:flex h-12 items-center gap-1 rounded-full bg-emerald-50/70 border border-brand-green/40 ring-1 ring-brand-green/10 px-1.5" aria-label="প্রধান মেনু">
           {items.map((it) => btn(it, false))}
         </nav>
 
-        <span className="hidden 2xl:block text-right text-sm leading-snug text-slate-500">Competitive Programming<br />Beginner দের জন্য</span>
+        <span className="hidden 2xl:block text-right text-sm leading-snug text-slate-500">নতুনদের জন্য<br />সহজ বাংলায় শেখা</span>
 
         <button className="xl:hidden grid h-11 w-11 place-items-center rounded-full bg-white border border-brand-green/40"
           aria-expanded={open} aria-controls="mobile-menu" aria-label="মেনু" onClick={() => setOpen(!open)}>

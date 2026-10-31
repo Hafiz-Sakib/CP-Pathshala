@@ -1,23 +1,15 @@
 import { tabs, pages, index, groupPages, categories, exampleCount, bn } from "../data";
 import { col } from "./Colors";
-import { BitGroup } from "./BitViz";
 import BitPlayground from "./BitPlayground";
 import Reveal from "./Reveal";
 import SieveAnim from "./SieveAnim";
 import BinaryCounter from "./BinaryCounter";
+import BfsDfsAnim from "./BfsDfsAnim";
+import HeroBitDemo from "./HeroBitDemo";
 import TipTerminal from "./TipTerminal";
 import { BoxIcon, BitIcon, SigmaIcon, LoopIcon, GraphIcon, CheckIcon, ArrowIcon, CodeIcon, EyeIcon, ListIcon, TableIcon, WarnIcon, BookIcon, PlayIcon } from "./Icons";
 
 const TabIcon = { box: BoxIcon, bit: BitIcon, sigma: SigmaIcon, loop: LoopIcon, graph: GraphIcon };
-
-const demo = {
-  kind: "bits", caption: "12 & 10 — প্রতিটা ঘর আলাদা করে AND (হলুদ ঘরে দুইজনেই 1)",
-  rows: [
-    { label: "a = 12", bits: "00001100", dec: 12, tone: "a", hl: [4], sep: false },
-    { label: "b = 10", bits: "00001010", dec: 10, tone: "b", hl: [4], sep: false },
-    { label: "a & b", bits: "00001000", dec: 8, tone: "r", hl: [4], sep: true },
-  ],
-};
 
 const features = [
   { Icon: CodeIcon, t: "কপি করা যায় এমন কোড", d: "রঙিন syntax সহ পুরো কোড। এক ক্লিকে কপি করে নিজের মতো চালাও।" },
@@ -53,8 +45,8 @@ export default function Home({ onSelect, onOpen }) {
         </div>
         <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:items-center">
           <div className="animate-fade-up">
-            <p className="inline-block rounded-full border border-white/25 bg-white/10 px-4 py-1 text-base font-semibold text-emerald-200">বাংলায় C++ টিউটোরিয়াল • Competitive Programming</p>
-            <h1 className="mt-4 text-xl sm:text-2xl lg:text-5xl">STL থেকে গ্রাফ থিওরি — Competitive Programming শিখি বাংলায়</h1>
+            <p className="inline-block rounded-full border border-white/25 bg-white/10 px-4 py-1 text-base font-semibold text-emerald-200">কম্পিটিটিভ প্রোগ্রামিং পাঠশালা • বাংলায়</p>
+            <h1 className="mt-4 text-xl sm:text-2xl lg:text-5xl">STL থেকে গ্রাফ থিওরি — কম্পিটিটিভ প্রোগ্রামিং শিখি বাংলায়</h1>
             <p className="mt-4 text-base text-white/90 sm:text-lg">প্রতিটা function-এর জন্য আলাদা পেজ — কোড, input, output আর <strong className="text-amber-300">ধাপে ধাপে ব্যাখ্যা</strong>। বিটের ছবি, গ্রাফের node-edge আর হিসাবের টেবিল দেখে দেখে শেখো, কঠিন জিনিসও জলের মতো সোজা।</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <button onClick={() => onOpen(groupPages("stl")[0].id)} className="flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-base font-bold text-brand-ink shadow hover:bg-emerald-50">STL শুরু করো <ArrowIcon /></button>
@@ -66,13 +58,7 @@ export default function Home({ onSelect, onOpen }) {
             <TipTerminal />
           </div>
 
-          <div className="animate-pop-in rounded-3xl bg-white p-5 text-slate-800 shadow-2xl">
-            <p className="mb-1 text-base font-bold text-brand-red">পেজ দেখতে এমন — একটা ঝলক</p>
-            <h2 className="text-xl">AND ( &amp; ) অপারেটর</h2>
-            <p className="mt-1 text-base text-slate-600">দুইটা বিট-ই <strong>1</strong> হলে ফল 1, নাহলে 0। নিচে ঘরে ঘরে দেখো:</p>
-            <BitGroup g={demo} />
-            <button onClick={() => onOpen("bit-and")} className="mt-3 flex items-center gap-1.5 text-base font-bold text-brand-green hover:underline">পুরো পেজ দেখো <ArrowIcon /></button>
-          </div>
+          <HeroBitDemo onOpen={onOpen} />
         </div>
         <div className="road-dash" />
       </section>
@@ -189,6 +175,24 @@ export default function Home({ onSelect, onOpen }) {
             <p className="mt-2 text-base text-slate-600">প্রতি সেকেন্ডে সংখ্যা ১ বাড়ছে। কোন বিট উল্টে যাচ্ছে (হলুদ) খেয়াল করো। পাশে দেখো জোড়-বিজোড়, 1 এর সংখ্যা আর 2 এর ঘাত কখন ধরা পড়ছে।</p>
             <button onClick={() => onOpen("bit-popcount")} className="mt-4 flex items-center gap-2 text-base font-bold text-emerald-700 hover:underline">popcount পেজ দেখো <ArrowIcon /></button>
           </div>
+        </div>
+      </Reveal>
+
+      {/* ───── BFS / DFS লাইভ অ্যানিমেশন ───── */}
+      <Reveal as="section" className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
+        <div className="grid items-start gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="text-sm font-bold text-rose-700">লাইভ অ্যানিমেশন · গ্রাফ থিওরি</p>
+            <h2 className="mt-1 text-xl sm:text-2xl">BFS আর DFS — পাশাপাশি দেখো</h2>
+            <p className="mt-2 text-base text-slate-600">একই tree-তে (উপর থেকে নিচে, প্রতি node এর অনেক branch) দুইভাবে হাঁটা। <strong>BFS</strong> কাছের node আগে ধরে — ঢেউয়ের মতো ছড়ায়, সাথে থাকে <strong>queue</strong>। <strong>DFS</strong> একদম গভীরে চলে যায়, আটকে গেলে ফিরে আসে — সাথে থাকে <strong>stack</strong>।</p>
+            <ul className="mt-3 space-y-1.5 text-base text-slate-700">
+              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span>হলুদ = এখন যে node এ আছি</span></li>
+              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span>নীল = queue / stack এ অপেক্ষায়</span></li>
+              <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span>সবুজ = visited, নিচের <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">#১, #২…</code> = কত নম্বরে দেখা হলো</span></li>
+            </ul>
+            <p className="mt-3 text-base text-slate-600">উপরের বাটনে BFS ↔ DFS বদলে দেখো — একই tree-তে visit order কেমন আলাদা হয়ে যায়।</p>
+          </div>
+          <BfsDfsAnim onOpen={onOpen} />
         </div>
       </Reveal>
 
