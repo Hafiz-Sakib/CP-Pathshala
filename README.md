@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./public/logo-banner.png" alt="CP Pathshala logo" width="720" />
+<img src="./public/logo-banner.png" alt="CP Pathshala logo" width="320" />
 
 # কম্পিটিটিভ প্রোগ্রামিং পাঠশালা
 
