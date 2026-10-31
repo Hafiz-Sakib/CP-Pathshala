@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { HomeIcon, BoxIcon, BitIcon, SigmaIcon, MenuIcon, CloseIcon } from "./Icons";
+import { HomeIcon, BoxIcon, BitIcon, SigmaIcon, LoopIcon, GraphIcon, MenuIcon, CloseIcon } from "./Icons";
 
 const items = [
   { id: "home", label: "হোম", Icon: HomeIcon },
   { id: "stl", label: "STL", Icon: BoxIcon },
   { id: "bits", label: "বিটের মজা", Icon: BitIcon },
   { id: "nt", label: "নাম্বার থিওরি", Icon: SigmaIcon },
+  { id: "rec", label: "রিকার্সন ও DP", Icon: LoopIcon },
+  { id: "graph", label: "গ্রাফ থিওরি", Icon: GraphIcon },
 ];
 
 export default function Navbar({ tab, onSelect }) {
@@ -25,7 +27,7 @@ export default function Navbar({ tab, onSelect }) {
     return (
       <button key={it.id} aria-current={active ? "page" : undefined}
         onClick={() => { onSelect(it.id); setOpen(false); }}
-        className={`flex items-center gap-2 rounded-full border text-base font-bold transition ${mobile ? "w-full rounded-xl px-4 py-3" : "px-3.5 py-2"} ${
+        className={`flex items-center gap-2 rounded-full border text-base font-bold transition ${mobile ? "w-full rounded-xl px-4 py-3" : "px-3 py-2"} ${
           active ? "bg-brand-green text-white border-brand-ink shadow-sm" : "border-transparent text-slate-700 hover:bg-brand-green/10"}`}>
         <it.Icon /> {it.label}
       </button>
@@ -41,19 +43,19 @@ export default function Navbar({ tab, onSelect }) {
           <span className="font-bold text-brand-ink leading-tight text-base sm:text-lg">সি++ শিখি<br className="sm:hidden" /> বাংলায়</span>
         </button>
 
-        <nav className="hidden lg:flex h-12 items-center gap-1 rounded-full bg-emerald-50/70 border border-brand-green/40 ring-1 ring-brand-green/10 px-1.5" aria-label="প্রধান মেনু">
+        <nav className="hidden xl:flex h-12 items-center gap-1 rounded-full bg-emerald-50/70 border border-brand-green/40 ring-1 ring-brand-green/10 px-1.5" aria-label="প্রধান মেনু">
           {items.map((it) => btn(it, false))}
         </nav>
 
-        <span className="hidden xl:block text-right text-sm text-slate-500">Hafiz Sakib-এর<br />নোট থেকে তৈরি</span>
+        <span className="hidden 2xl:block text-right text-sm leading-snug text-slate-500">Competitive Programming<br />Beginner দের জন্য</span>
 
-        <button className="lg:hidden grid h-11 w-11 place-items-center rounded-full bg-white border border-brand-green/40"
+        <button className="xl:hidden grid h-11 w-11 place-items-center rounded-full bg-white border border-brand-green/40"
           aria-expanded={open} aria-controls="mobile-menu" aria-label="মেনু" onClick={() => setOpen(!open)}>
           {open ? <CloseIcon width={20} height={20} /> : <MenuIcon width={20} height={20} />}
         </button>
 
         {open && (
-          <div id="mobile-menu" className="lg:hidden animate-slide-down absolute right-3 top-full mt-2 w-[min(18rem,calc(100vw-1.5rem))] rounded-2xl bg-white border border-brand-green/40 shadow-xl p-2 space-y-1">
+          <div id="mobile-menu" className="xl:hidden animate-slide-down absolute right-3 top-full mt-2 w-[min(18rem,calc(100vw-1.5rem))] rounded-2xl bg-white border border-brand-green/40 shadow-xl p-2 space-y-1">
             {items.map((it) => btn(it, true))}
           </div>
         )}

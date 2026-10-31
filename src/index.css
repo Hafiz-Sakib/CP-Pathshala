@@ -1,3 +1,9 @@
+@font-face { font-family: "Fira Code"; font-style: normal; font-weight: 300; font-display: swap; src: url("./fonts/FiraCode-Light.woff2") format("woff2"); }
+@font-face { font-family: "Fira Code"; font-style: normal; font-weight: 400; font-display: swap; src: url("./fonts/FiraCode-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Fira Code"; font-style: normal; font-weight: 500; font-display: swap; src: url("./fonts/FiraCode-Medium.woff2") format("woff2"); }
+@font-face { font-family: "Fira Code"; font-style: normal; font-weight: 600; font-display: swap; src: url("./fonts/FiraCode-SemiBold.woff2") format("woff2"); }
+@font-face { font-family: "Fira Code"; font-style: normal; font-weight: 700; font-display: swap; src: url("./fonts/FiraCode-Bold.woff2") format("woff2"); }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,7 +27,7 @@
   h3 { font-size: 1.2rem; }
   @media (min-width: 640px) { h1 { font-size: 2.4rem; } h2 { font-size: 1.7rem; } h3 { font-size: 1.3rem; } }
   strong, b { font-weight: 700; }
-  code { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  code, kbd, samp, pre { font-family: "Fira Code", "Hind Siliguri", ui-monospace, Menlo, Consolas, monospace; font-variant-ligatures: contextual; font-feature-settings: "calt" 1, "liga" 1; }
 }
 
 :focus-visible { outline: 2px solid #00694d; outline-offset: 2px; }

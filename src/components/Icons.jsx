@@ -21,3 +21,5 @@ export const TerminalIcon = P(<path d="M4 5h16v14H4zM8 10l3 2-3 2M13 15h4" />);
 export const BookIcon = P(<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19a2 2 0 012-2h13" />);
 export const ClockIcon = P(<path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v5l3 2" />);
 export const TargetIcon = P(<path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 16a4 4 0 100-8 4 4 0 000 8zM12 12h.01" />);
+export const LoopIcon = P(<path d="M17 2l4 4-4 4M3 11V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 01-3 3H3" />);
+export const GraphIcon = P(<path d="M6 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM18 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM12 21a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 6h8M7.5 8l3.5 8M16.5 8L13 16" />);

@@ -62,3 +62,37 @@ def merge(pages):
     unknown = set(ENR) - {p["id"] for p in pages}
     if unknown:
         raise SystemExit("UNKNOWN IDS: %s" % unknown)
+
+
+# ───────────── গ্রাফ / গ্রিডের ছবি ─────────────
+def GV(caption, nodes, edges, w=460, h=205, note=None, r=20):
+    """গ্রাফের ছবি। nodes: (id, x, y, state='n', label=None, sub=None) | edges: (a, b, state='n', weight=None, directed=False)
+    node state: n সাধারণ, a এখনকার, v শেষ, q অপেক্ষায়, x বাদ, r ২ নম্বর রঙ | edge state: n, t নেওয়া, x বাদ, a এখনকার"""
+    ns = []
+    for t in nodes:
+        t = list(t) + [None] * (6 - len(t))
+        ns.append(dict(id=t[0], x=t[1], y=t[2], s=t[3] or "n", t=t[4], sub=t[5]))
+    es = []
+    for t in edges:
+        t = list(t) + [None] * (5 - len(t))
+        es.append(dict(a=t[0], b=t[1], s=t[2] or "n", w=t[3], d=bool(t[4])))
+    return dict(kind="graph", caption=caption, nodes=ns, edges=es, w=w, h=h, r=r, note=note)
+
+
+def MV(caption, rows, cols=None, rowLabels=None, note=None):
+    """2D ঘরের ছবি। rows: [[(লেখা, state), ...], ...] | state: n z o w a s v p"""
+    return dict(kind="mat", caption=caption, cols=cols, rowLabels=rowLabels, note=note,
+                rows=[[dict(t=str(t), s=s) for t, s in r] for r in rows])
+
+
+# নমুনা গ্রাফ G1 (৬ node, ৭ edge) এর জায়গা
+G1P = {1: (50, 100), 2: (160, 45), 3: (160, 155), 4: (290, 45), 5: (290, 155), 6: (410, 100)}
+G1E = [(1, 2), (1, 3), (2, 4), (2, 5), (3, 5), (4, 6), (5, 6)]
+G1A = {1: [2, 3], 2: [1, 4, 5], 3: [1, 5], 4: [2, 6], 5: [2, 3, 6], 6: [4, 5]}
+
+
+def g1(caption, st=None, sub=None, es=None, note=None, label=None):
+    st, sub, es, label = st or {}, sub or {}, es or {}, label or {}
+    nodes = [(i, G1P[i][0], G1P[i][1], st.get(i, "n"), label.get(i), sub.get(i)) for i in G1P]
+    edges = [(a, b, es.get((a, b), es.get((b, a), "n"))) for a, b in G1E]
+    return GV(caption, nodes, edges, note=note)

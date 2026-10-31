@@ -1,5 +1,5 @@
-import json, lib, p_stl1, p_stl2, p_stl3, p_bits, p_nt
-import enrich_lib, e_bits, e_nt1, e_nt2
+import json, lib, p_stl1, p_stl2, p_stl3, p_bits, p_nt, p_rec, p_graph
+import enrich_lib, e_bits, e_nt1, e_nt2, e_rec, e_graph1, e_graph2
 
 lib.run_all()
 enrich_lib.merge(lib.pages)
@@ -7,7 +7,7 @@ enrich_lib.merge(lib.pages)
 # sanity: every table row must match its column count; every bits/nt page must be enriched
 bad = []
 for p in lib.pages:
-    if p["grp"] in ("bits", "nt") and "intro" not in p:
+    if p["grp"] in ("bits", "nt", "rec", "graph") and "intro" not in p:
         bad.append(("NOT ENRICHED", p["id"]))
     tabs = ([p["truth"]] if p.get("truth") else [])
     for e in p["examples"]:

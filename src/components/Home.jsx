@@ -3,12 +3,12 @@ import { col } from "./Colors";
 import { BitGroup } from "./BitViz";
 import BitPlayground from "./BitPlayground";
 import Reveal from "./Reveal";
-import CountUp from "./CountUp";
 import SieveAnim from "./SieveAnim";
 import BinaryCounter from "./BinaryCounter";
-import { BoxIcon, BitIcon, SigmaIcon, CheckIcon, ArrowIcon, CodeIcon, EyeIcon, ListIcon, TableIcon, WarnIcon, BookIcon, PlayIcon } from "./Icons";
+import TipTerminal from "./TipTerminal";
+import { BoxIcon, BitIcon, SigmaIcon, LoopIcon, GraphIcon, CheckIcon, ArrowIcon, CodeIcon, EyeIcon, ListIcon, TableIcon, WarnIcon, BookIcon, PlayIcon } from "./Icons";
 
-const TabIcon = { box: BoxIcon, bit: BitIcon, sigma: SigmaIcon };
+const TabIcon = { box: BoxIcon, bit: BitIcon, sigma: SigmaIcon, loop: LoopIcon, graph: GraphIcon };
 
 const demo = {
   kind: "bits", caption: "12 & 10 — প্রতিটা ঘর আলাদা করে AND (হলুদ ঘরে দুইজনেই 1)",
@@ -23,8 +23,8 @@ const features = [
   { Icon: CodeIcon, t: "কপি করা যায় এমন কোড", d: "রঙিন syntax সহ পুরো কোড। এক ক্লিকে কপি করে নিজের মতো চালাও।" },
   { Icon: BookIcon, t: "Syntax ও Time Complexity", d: "লেখার নিয়ম আর কত সময় লাগে — প্রতিটা পেজের শুরুতেই পাবে।" },
   { Icon: PlayIcon, t: "আসল Input ও Output", d: "প্রতিটা উদাহরণ আসল g++ দিয়ে চালিয়ে output নেওয়া — কোনো আন্দাজ নেই।" },
-  { Icon: ListIcon, t: "ধাপে ধাপে ব্যাখ্যা", d: "বিট ও নাম্বার থিওরিতে প্রতিটা লাইনে কী ঘটছে, একদম ভেঙে ভেঙে বাংলায়।" },
-  { Icon: EyeIcon, t: "ছবি দিয়ে বোঝা", d: "বিটের প্রতিটা ঘর, Sieve এর কাটাকাটি — সব রঙিন ছবিতে।" },
+  { Icon: ListIcon, t: "ধাপে ধাপে ব্যাখ্যা", d: "বিট, নাম্বার থিওরি, রিকার্সন ও গ্রাফে প্রতিটা লাইনে কী ঘটছে, একদম ভেঙে ভেঙে বাংলায়।" },
+  { Icon: EyeIcon, t: "ছবি দিয়ে বোঝা", d: "বিটের ঘর, Sieve এর কাটাকাটি, গ্রাফের node ও edge, BFS এর ঢেউ — সব রঙিন ছবিতে।" },
   { Icon: TableIcon, t: "হিসাবের টেবিল", d: "লুপ বা recursion এর প্রতিটা ধাপে মান কেমন বদলাচ্ছে তা টেবিলে দেখো।" },
   { Icon: WarnIcon, t: "সাবধান ও টিপস", d: "যেসব ভুল সবাই করে — overflow, priority, off-by-one — আগেই জেনে নাও।" },
   { Icon: BitIcon, t: "নিজে করে দেখো", d: "নিচের Bit Playground এ সংখ্যা বদলাও, ফল সাথে সাথে দেখো।" },
@@ -34,15 +34,14 @@ const road = [
   { t: "STL দিয়ে হাত পাকাও", d: "vector, string, set, map … ধীরে ধীরে একটা একটা function শেখো। প্রতিটার আলাদা পেজ।", to: () => groupPages("stl")[0].id, b: "STL শুরু করো" },
   { t: "বিটের মজা বোঝো", d: "AND, OR, XOR থেকে শুরু। প্রতিটা বিটের ঘর দেখে দেখে বুঝবে, মুখস্থ লাগবে না।", to: () => "bit-and", b: "বিট শুরু করো" },
   { t: "নাম্বার থিওরি ধরো", d: "Prime → Divisor → Sieve → GCD → Modular। ক্রম মেনে এগোলে সহজ।", to: () => "nt-prime-check", b: "নাম্বার থিওরি শুরু করো" },
+  { t: "রিকার্সন ও DP বোঝো", d: "function নিজেকে ডাকলে কী হয়, আর memo দিয়ে কীভাবে লাখ গুণ দ্রুত করা যায়।", to: () => "rec-fibo", b: "রিকার্সন শুরু করো" },
+  { t: "গ্রাফে হাঁটো", d: "Adjacency List → BFS → DFS → Dijkstra → DSU → MST। প্রতিটা ধাপ node আর edge এর ছবিতে।", to: () => "graph-adj-list", b: "গ্রাফ শুরু করো" },
   { t: "নিজে হাতে চালাও", d: "উদাহরণের input বদলাও, কোড ভাঙো, আবার জোড়া লাগাও। ভুল করেই শেখা হয়।", to: null, b: "কীভাবে চালাবে ↓" },
 ];
 
-const popular = ["vector-push_back", "algo-sort", "map-frequency", "bit-xor", "bit-check-set", "is_powerOF2", "nt-sieve-bitset", "nt-gcd", "nt-binary-exponentiation", "nt-euler-phi"].filter((id) => index[id] !== undefined);
+const popular = ["vector-push_back", "algo-sort", "map-frequency", "bit-xor", "bit-check-set", "is_powerOF2", "nt-sieve-bitset", "nt-gcd", "nt-binary-exponentiation", "nt-euler-phi", "rec-memo", "graph-bfs", "graph-dfs", "graph-dijkstra", "graph-dsu", "graph-kruskal"].filter((id) => index[id] !== undefined);
 
 export default function Home({ onSelect, onOpen }) {
-  const totalPages = pages.length;
-  const totalEx = tabs.reduce((n, t) => n + exampleCount(t.id), 0);
-
   return (
     <>
       {/* ───── Hero ───── */}
@@ -55,21 +54,16 @@ export default function Home({ onSelect, onOpen }) {
         <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:items-center">
           <div className="animate-fade-up">
             <p className="inline-block rounded-full border border-white/25 bg-white/10 px-4 py-1 text-base font-semibold text-emerald-200">বাংলায় C++ টিউটোরিয়াল • Competitive Programming</p>
-            <h1 className="mt-4 text-xl sm:text-2xl lg:text-5xl">STL, বিটের মজা ও নাম্বার থিওরি শিখি বাংলায়</h1>
-            <p className="mt-4 text-base text-white/90 sm:text-lg">প্রতিটা function-এর জন্য আলাদা পেজ — কোড, input, output আর <strong className="text-amber-300">ধাপে ধাপে ব্যাখ্যা</strong>। বিটের ছবি আর হিসাবের টেবিল দেখে দেখে শেখো, কঠিন জিনিসও জলের মতো সোজা।</p>
+            <h1 className="mt-4 text-xl sm:text-2xl lg:text-5xl">STL থেকে গ্রাফ থিওরি — Competitive Programming শিখি বাংলায়</h1>
+            <p className="mt-4 text-base text-white/90 sm:text-lg">প্রতিটা function-এর জন্য আলাদা পেজ — কোড, input, output আর <strong className="text-amber-300">ধাপে ধাপে ব্যাখ্যা</strong>। বিটের ছবি, গ্রাফের node-edge আর হিসাবের টেবিল দেখে দেখে শেখো, কঠিন জিনিসও জলের মতো সোজা।</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <button onClick={() => onOpen(groupPages("stl")[0].id)} className="flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-base font-bold text-brand-ink shadow hover:bg-emerald-50">STL শুরু করো <ArrowIcon /></button>
               <button onClick={() => onSelect("bits")} className="rounded-xl border border-white/50 px-5 py-3 text-base font-bold text-white hover:bg-white/10">বিটের মজা</button>
               <button onClick={() => onSelect("nt")} className="rounded-xl border border-white/50 px-5 py-3 text-base font-bold text-white hover:bg-white/10">নাম্বার থিওরি</button>
+              <button onClick={() => onSelect("rec")} className="rounded-xl border border-white/50 px-5 py-3 text-base font-bold text-white hover:bg-white/10">রিকার্সন ও DP</button>
+              <button onClick={() => onSelect("graph")} className="rounded-xl border border-white/50 px-5 py-3 text-base font-bold text-white hover:bg-white/10">গ্রাফ থিওরি</button>
             </div>
-            <dl className="mt-8 grid max-w-lg grid-cols-3 gap-3 text-center">
-              {[[tabs.length, "টা বিষয়"], [totalPages, "টা পেজ"], [totalEx, "টা উদাহরণ"]].map(([n, l]) => (
-                <div key={l} className="rounded-2xl bg-white/10 px-2 py-3 ring-1 ring-white/20">
-                  <dt className="text-2xl font-bold text-amber-300"><CountUp to={n} /></dt>
-                  <dd className="text-base text-white/85">{l}</dd>
-                </div>
-              ))}
-            </dl>
+            <TipTerminal />
           </div>
 
           <div className="animate-pop-in rounded-3xl bg-white p-5 text-slate-800 shadow-2xl">
@@ -88,7 +82,7 @@ export default function Home({ onSelect, onOpen }) {
         <div className="marquee">
           {[0, 1].map((k) => (
             <div key={k} className="flex shrink-0 gap-3 pr-3">
-              {["vector", "set", "map", "sort()", "priority_queue", "XOR ^", "popcount", "1 << i", "Sieve", "GCD", "LCM", "modpow", "nCr", "φ(n)", "string", "bitset", "binary_search"].map((w) => (
+              {["vector", "set", "map", "sort()", "priority_queue", "XOR ^", "popcount", "1 << i", "Sieve", "GCD", "LCM", "modpow", "nCr", "φ(n)", "string", "bitset", "binary_search", "recursion", "memo", "BFS", "DFS", "Dijkstra", "DSU", "Kruskal", "Prim"].map((w) => (
                 <span key={w + k} className="rounded-full bg-emerald-50 px-4 py-1 font-mono text-sm font-bold text-emerald-800 ring-1 ring-emerald-200">{w}</span>
               ))}
             </div>
@@ -99,8 +93,8 @@ export default function Home({ onSelect, onOpen }) {
       {/* ───── বিষয়ের কার্ড (সবগুলো সমান মাপের) ───── */}
       <Reveal as="section" className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
         <h2 className="text-xl sm:text-2xl">কী কী শিখবে?</h2>
-        <p className="mt-2 max-w-3xl text-base text-slate-600">তিনটা বিষয় — যেকোনো একটা বেছে নাও। প্রতিটা পেজে আছে একাধিক উদাহরণ, input দিলে কী output আসে, আর তার ব্যাখ্যা।</p>
-        <div className="mt-8 grid items-stretch gap-6 md:grid-cols-3">
+        <p className="mt-2 max-w-3xl text-base text-slate-600">পাঁচটা বিষয় — যেকোনো একটা বেছে নাও। প্রতিটা পেজে আছে একাধিক উদাহরণ, input দিলে কী output আসে, আর তার ব্যাখ্যা।</p>
+        <div className="mt-8 grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
           {tabs.map((t, i) => {
             const k = col(t.color);
             const Icon = TabIcon[t.icon];
@@ -144,11 +138,11 @@ export default function Home({ onSelect, onOpen }) {
       <Reveal as="section" className="border-y border-slate-200 bg-white/70">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
           <h2 className="text-xl sm:text-2xl">শেখার রোডম্যাপ</h2>
-          <p className="mt-2 max-w-3xl text-base text-slate-600">কোথা থেকে শুরু করবে বুঝতে পারছো না? এই চার ধাপ মেনে এগোও।</p>
-          <div className="mt-8 grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <p className="mt-2 max-w-3xl text-base text-slate-600">কোথা থেকে শুরু করবে বুঝতে পারছো না? এই ছয় ধাপ মেনে এগোও।</p>
+          <div className="mt-8 grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {road.map((r, i) => (
               <div key={r.t} className="card-lift relative flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <span className={`grid h-12 w-12 place-items-center rounded-full text-xl font-bold text-white ${["bg-emerald-500", "bg-amber-500", "bg-blue-500", "bg-purple-500"][i]}`}>{bn(i + 1)}</span>
+                <span className={`grid h-12 w-12 place-items-center rounded-full text-xl font-bold text-white ${["bg-emerald-500", "bg-amber-500", "bg-blue-500", "bg-purple-500", "bg-rose-500", "bg-slate-600"][i]}`}>{bn(i + 1)}</span>
                 <h3 className="mt-3 text-lg">{r.t}</h3>
                 <p className="mt-1 flex-1 text-base text-slate-600">{r.d}</p>
                 <button onClick={() => (r.to ? onOpen(r.to()) : document.getElementById("run")?.scrollIntoView({ behavior: "smooth" }))}

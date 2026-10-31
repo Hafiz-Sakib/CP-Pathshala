@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { categories, groupPages, exampleCount, bn } from "../data";
 import { col } from "./Colors";
-import { SearchIcon, ClockIcon } from "./Icons";
+import { SearchIcon, ClockIcon, BookIcon, ArrowIcon } from "./Icons";
 
 export default function GroupIndex({ tab, onOpen }) {
   const [q, setQ] = useState("");
@@ -60,6 +60,21 @@ export default function GroupIndex({ tab, onOpen }) {
             </section>
           );
         })}
+        {tab.reading && !term && (
+          <section className="mb-4 rounded-3xl border border-rose-200 bg-rose-50/70 p-5 sm:p-7">
+            <h2 className="flex items-center gap-3 text-lg sm:text-xl"><BookIcon width={24} height={24} className="text-rose-600" />{tab.readingTitle}</h2>
+            <p className="mt-2 text-base text-slate-700">{tab.readingNote}</p>
+            <ol className="mt-4 grid gap-2 sm:grid-cols-2">
+              {tab.reading.map((t, i) => (
+                <li key={t} className="flex items-start gap-3 rounded-xl bg-white px-3.5 py-2.5 text-base shadow-sm ring-1 ring-rose-100">
+                  <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-rose-500 text-sm font-bold text-white">{bn(i + 1)}</span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ol>
+            {tab.repo && <a href={tab.repo} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 text-base font-bold text-rose-700 hover:underline">PDF গুলো GitHub এ দেখো <ArrowIcon /></a>}
+          </section>
+        )}
       </div>
     </>
   );

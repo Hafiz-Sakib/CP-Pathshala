@@ -1,4 +1,5 @@
 import Rich from "./Rich";
+import { GraphFig, MatFig } from "./GraphViz";
 
 const ON = { a: "bg-sky-600 text-white", b: "bg-violet-600 text-white", r: "bg-emerald-600 text-white", n: "bg-slate-700 text-white" };
 const isOn = (ch) => ch !== "0" && ch !== "·";
@@ -68,7 +69,7 @@ export function BitGroup({ g }) {
   return (
     <figure className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       {g.caption && <figcaption className="mb-3 text-base font-bold text-brand-ink"><Rich text={g.caption} /></figcaption>}
-      {g.kind === "grid" ? <Grid g={g} /> : (
+      {g.kind === "graph" ? <GraphFig g={g} /> : g.kind === "mat" ? <MatFig g={g} /> : g.kind === "grid" ? <Grid g={g} /> : (
         <div className="overflow-x-auto pb-2 no-scrollbar">
           <div className="w-max">
             {numeric && <Weights len={g.rows[0].bits.length} />}

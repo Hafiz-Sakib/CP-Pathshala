@@ -2,7 +2,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
-      fontFamily: { sans: ["Hind Siliguri", "system-ui", "sans-serif"], mono: ["ui-monospace", "Menlo", "Consolas", "monospace"] },
+      fontFamily: { sans: ["Hind Siliguri", "system-ui", "sans-serif"], mono: ["Fira Code", "Hind Siliguri", "ui-monospace", "Menlo", "Consolas", "monospace"] },
       colors: { brand: { ink: "#0a3631", green: "#00694d", red: "#c8283a" } },
       keyframes: {
         "fade-up": { from: { opacity: 0, transform: "translateY(14px)" }, to: { opacity: 1, transform: "none" } },
