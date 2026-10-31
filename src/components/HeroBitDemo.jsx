@@ -14,7 +14,7 @@ const a = bits(A), b = bits(B);
 const weight = (i) => 2 ** (LEN - 1 - i);
 
 const cell = (on, tone, active) =>
-  `grid h-9 w-8 shrink-0 place-items-center rounded-md font-mono text-base font-bold transition-all duration-300 sm:h-10 sm:w-9 ${
+  `grid h-8 w-6 shrink-0 place-items-center rounded-md font-mono text-sm font-bold transition-all duration-300 min-[420px]:h-9 min-[420px]:w-7 min-[420px]:text-base sm:h-10 sm:w-9 ${
     on ? tone : "bg-slate-100 text-slate-400"} ${active ? "scale-110 ring-2 ring-amber-400 ring-offset-1" : ""}`;
 
 export default function HeroBitDemo({ onOpen }) {
@@ -46,7 +46,7 @@ export default function HeroBitDemo({ onOpen }) {
       : "ঘরে ঘরে হিসাব শুরু হচ্ছে…";
 
   return (
-    <div className="animate-pop-in rounded-3xl bg-white p-5 text-slate-800 shadow-2xl">
+    <div className="animate-pop-in rounded-3xl bg-white p-4 text-slate-800 sm:p-5 shadow-2xl">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="inline-flex items-center gap-2 text-sm font-bold text-brand-red">
           <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-75" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-red" /></span>
@@ -65,24 +65,24 @@ export default function HeroBitDemo({ onOpen }) {
 
       <div className="mt-3 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-3 no-scrollbar">
         <div className="w-max">
-          <div className="flex items-end gap-3">
-            <span className="w-16 shrink-0 text-right text-xs font-semibold text-slate-500 sm:w-20">ঘরের মান →</span>
-            <div className="flex gap-1">
+          <div className="flex items-end gap-2 sm:gap-3">
+            <span className="w-14 shrink-0 text-right text-[10px] font-semibold text-slate-500 min-[420px]:w-16 min-[420px]:text-xs sm:w-20">ঘরের মান →</span>
+            <div className="flex gap-0.5 min-[420px]:gap-1">
               {Array.from({ length: LEN }, (_, i) => (
-                <span key={i} className={`w-8 shrink-0 text-center font-mono text-[11px] font-semibold transition sm:w-9 ${i === cur ? "text-amber-600" : "text-slate-500"}`}>{weight(i)}</span>
+                <span key={i} className={`w-6 shrink-0 text-center font-mono text-[9px] font-semibold transition min-[420px]:w-7 min-[420px]:text-[11px] sm:w-9 ${i === cur ? "text-amber-600" : "text-slate-500"}`}>{weight(i)}</span>
               ))}
             </div>
           </div>
           {[["a = 12", a, "bg-sky-600 text-white", A], ["b = 10", b, "bg-violet-600 text-white", B]].map(([lb, arr, tone, dec]) => (
-            <div key={lb} className="mt-1.5 flex items-center gap-3">
-              <span className="w-16 shrink-0 text-right text-sm font-semibold text-slate-700 sm:w-20 sm:text-base">{lb}</span>
-              <div className="flex gap-1">{arr.map((v, i) => <span key={i} className={cell(v === 1, tone, i === cur)}>{v}</span>)}</div>
+            <div key={lb} className="mt-1.5 flex items-center gap-2 sm:gap-3">
+              <span className="w-14 shrink-0 text-right text-xs font-semibold text-slate-700 min-[420px]:w-16 min-[420px]:text-sm sm:w-20 sm:text-base">{lb}</span>
+              <div className="flex gap-0.5 min-[420px]:gap-1">{arr.map((v, i) => <span key={i} className={cell(v === 1, tone, i === cur)}>{v}</span>)}</div>
               <span className="shrink-0 font-mono text-sm font-bold text-slate-700">= {dec}</span>
             </div>
           ))}
-          <div className="mt-2 flex items-center gap-3 border-t-[3px] border-slate-400 pt-2">
-            <span className="w-16 shrink-0 text-right text-sm font-semibold text-slate-700 sm:w-20 sm:text-base">a {O.sym} b</span>
-            <div className="flex gap-1">
+          <div className="mt-2 flex items-center gap-2 sm:gap-3 border-t-[3px] border-slate-400 pt-2">
+            <span className="w-14 shrink-0 text-right text-xs font-semibold text-slate-700 min-[420px]:w-16 min-[420px]:text-sm sm:w-20 sm:text-base">a {O.sym} b</span>
+            <div className="flex gap-0.5 min-[420px]:gap-1">
               {res.map((v, i) => i < step
                 ? <span key={i} className={cell(v === 1, "bg-emerald-600 text-white", i === cur)}>{v}</span>
                 : <span key={i} className={cell(false, "", false) + " !bg-slate-50 !text-slate-300"}>?</span>)}

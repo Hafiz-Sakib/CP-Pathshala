@@ -10,7 +10,7 @@
 
 @layer base {
   /* বড় ও পরিষ্কার লেখা — সব জায়গায় */
-  html { scroll-behavior: smooth; font-size: 100%; }
+  html { scroll-behavior: smooth; font-size: 100%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; overflow-x: hidden; overflow-x: clip; max-width: 100%; }
   @media (min-width: 640px) { html { font-size: 103%; } }
   body {
     font-family: "Hind Siliguri", system-ui, sans-serif;
@@ -18,6 +18,9 @@
     line-height: 1.75;
     padding-bottom: env(safe-area-inset-bottom);
     overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100%;
+    overflow-wrap: break-word;
     -webkit-tap-highlight-color: transparent;
   }
   /* সব Heading বোল্ড */
@@ -27,6 +30,16 @@
   h3 { font-size: 1.2rem; }
   @media (min-width: 640px) { h1 { font-size: 2.4rem; } h2 { font-size: 1.7rem; } h3 { font-size: 1.3rem; } }
   strong, b { font-weight: 700; }
+  /* মিডিয়া কখনো স্ক্রিনের বাইরে যাবে না */
+  img, svg, video, canvas { max-width: 100%; }
+  img, video { height: auto; }
+  /* grid এর ভেতরের কোনো শিশু (scroll box, কোড, টেবিল) যেন column কে ঠেলে বড় না করে */
+  .grid > * { min-width: 0; }
+  .grid:not([class*="grid-cols"]) { grid-template-columns: minmax(0, 1fr); }
+  table { max-width: 100%; }
+  pre, code { overflow-wrap: anywhere; }
+  pre { max-width: 100%; }
+  input, button, select, textarea { max-width: 100%; }
   code, kbd, samp, pre { font-family: "Fira Code", "Hind Siliguri", ui-monospace, Menlo, Consolas, monospace; font-variant-ligatures: contextual; font-feature-settings: "calt" 1, "liga" 1; }
 }
 

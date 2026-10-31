@@ -5,7 +5,7 @@ const ON = { a: "bg-sky-600 text-white", b: "bg-violet-600 text-white", r: "bg-e
 const isOn = (ch) => ch !== "0" && ch !== "·";
 
 function Cell({ ch, tone, hl, onClick, label }) {
-  const cls = `grid h-9 w-8 shrink-0 place-items-center rounded-md font-mono text-base font-bold transition sm:h-10 sm:w-9 ${
+  const cls = `grid h-8 w-6 shrink-0 place-items-center rounded-md font-mono text-sm font-bold transition min-[420px]:h-9 min-[420px]:w-7 min-[420px]:text-base sm:h-10 sm:w-9 ${
     isOn(ch) ? ON[tone] || ON.n : "bg-slate-100 text-slate-400"} ${hl ? "scale-110 ring-2 ring-amber-400 ring-offset-1" : ""}`;
   return onClick
     ? <button type="button" onClick={onClick} aria-label={label} className={`${cls} cursor-pointer hover:brightness-110 active:scale-95`}>{ch}</button>
@@ -14,9 +14,9 @@ function Cell({ ch, tone, hl, onClick, label }) {
 
 export function BitRow({ r, onToggle }) {
   return (
-    <div className={`flex items-center gap-3 ${r.sep ? "mt-2 border-t-[3px] border-slate-400 pt-2" : "mt-1.5"}`}>
-      <span className="w-28 shrink-0 text-right text-sm font-semibold text-slate-700 sm:w-32 sm:text-base">{r.label}</span>
-      <div className="flex gap-1">
+    <div className={`flex items-center gap-2 sm:gap-3 ${r.sep ? "mt-2 border-t-[3px] border-slate-400 pt-2" : "mt-1.5"}`}>
+      <span className="w-16 shrink-0 text-right text-xs font-semibold text-slate-700 min-[420px]:w-24 min-[420px]:text-sm sm:w-32 sm:text-base">{r.label}</span>
+      <div className="flex gap-0.5 min-[420px]:gap-1">
         {r.bits.split("").map((ch, i) => (
           <Cell key={i} ch={ch} tone={r.tone} hl={r.hl?.includes(i)} onClick={onToggle ? () => onToggle(i) : undefined} label={`বিট ${i} টগল করো`} />
         ))}
@@ -28,11 +28,11 @@ export function BitRow({ r, onToggle }) {
 
 export function Weights({ len, offset = true }) {
   return (
-    <div className="flex items-end gap-3">
-      <span className="w-28 shrink-0 text-right text-xs font-semibold text-slate-500 sm:w-32">জায়গার মান →</span>
-      <div className="flex gap-1">
+    <div className="flex items-end gap-2 sm:gap-3">
+      <span className="w-16 shrink-0 text-right text-[10px] font-semibold text-slate-500 min-[420px]:w-24 min-[420px]:text-xs sm:w-32">জায়গার মান →</span>
+      <div className="flex gap-0.5 min-[420px]:gap-1">
         {Array.from({ length: len }, (_, i) => (
-          <span key={i} className="w-8 shrink-0 text-center font-mono text-[11px] font-semibold text-slate-500 sm:w-9">{2 ** (len - 1 - i)}</span>
+          <span key={i} className="w-6 shrink-0 text-center font-mono text-[9px] font-semibold text-slate-500 min-[420px]:w-7 min-[420px]:text-[11px] sm:w-9">{2 ** (len - 1 - i)}</span>
         ))}
       </div>
     </div>
