@@ -21,9 +21,9 @@ export const tabs = [
   },
   {
     id: "rec", label: "রিকার্সন ও DP", color: "purple", icon: "loop",
-    blurb: "Recursive function থেকে Memoization ও Basic Dynamic Programming",
-    about: "function যখন নিজেকেই ডাকে, তখন সেটা recursion। কিন্তু একই কাজ বারবার করলে program ধীর হয়ে যায়। একবার করা কাজ মনে রাখার কৌশল (Memoization) শিখলেই Dynamic Programming এর প্রথম দরজা খুলে যায়। Fibonacci দিয়ে হাতে-কলমে দেখানো হয়েছে।",
-    learn: ["Recursive function ও base case", "call tree ও কতবার function ডাকা হয়", "Memoization (Top-Down) ও Bottom-Up", "memset, int বনাম long long এর সীমা"],
+    blurb: "Recursive function থেকে Memoization, Basic DP ও 0/1 + Fractional Knapsack (real-life উদাহরণ সহ)",
+    about: "function যখন নিজেকেই ডাকে, তখন সেটা recursion। কিন্তু একই কাজ বারবার করলে program ধীর হয়ে যায়। একবার করা কাজ মনে রাখার কৌশল (Memoization) শিখলেই Dynamic Programming এর প্রথম দরজা খুলে যায়। Fibonacci দিয়ে হাতে-কলমে দেখানো হয়েছে। এরপর সাজেকের ব্যাগ আর খাতুনগঞ্জের বাজারের গল্পে 0/1 Knapsack (DP) ও Fractional Knapsack (Greedy) ব্লগ আকারে আছে।",
+    learn: ["Recursive function ও base case", "call tree ও কতবার function ডাকা হয়", "Memoization (Top-Down) ও Bottom-Up", "0/1 ও Fractional Knapsack (real-life ব্লগ সহ)"],
   },
   {
     id: "graph", label: "গ্রাফ থিওরি", color: "rose", icon: "graph",

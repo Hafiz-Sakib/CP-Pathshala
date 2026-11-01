@@ -1,6 +1,7 @@
 """Enrichment layer: adds intro / steps / bit-visuals / trace tables to pages
 without touching the code examples. build.py merges ENR into lib.pages by page id."""
 ENR = {}
+BLOG = {}
 
 
 def bs(n, w=8):
@@ -44,9 +45,21 @@ def EN(pid, intro, uses, tips, *ex, truth=None):
     ENR[pid] = dict(intro=intro, uses=uses, tips=tips, truth=truth, ex=list(ex))
 
 
+def S(h, p=None, ul=None, table=None):
+    """ব্লগের একটা অংশ: h = শিরোনাম, p = অনুচ্ছেদের তালিকা, ul = বুলেট তালিকা, table = T(...)"""
+    return dict(h=h, p=p or [], ul=ul or [], table=table)
+
+
+def BL(pid, *sections):
+    """পেজের জন্য ব্লগ (গল্প + real life উদাহরণ)। LessonPage এ 'ব্লগ' কার্ড হয়ে দেখায়"""
+    BLOG[pid] = list(sections)
+
+
 def merge(pages):
     miss = []
     for p in pages:
+        if p["id"] in BLOG:
+            p["blog"] = BLOG[p["id"]]
         e = ENR.get(p["id"])
         if not e:
             continue
@@ -59,7 +72,7 @@ def merge(pages):
             ex["steps"], ex["viz"], ex["tables"] = x["steps"], x["viz"], x["tables"]
     if miss:
         raise SystemExit("EXAMPLE COUNT MISMATCH: %s" % miss)
-    unknown = set(ENR) - {p["id"] for p in pages}
+    unknown = (set(ENR) | set(BLOG)) - {p["id"] for p in pages}
     if unknown:
         raise SystemExit("UNKNOWN IDS: %s" % unknown)
 
@@ -79,10 +92,14 @@ def GV(caption, nodes, edges, w=460, h=205, note=None, r=20):
     return dict(kind="graph", caption=caption, nodes=ns, edges=es, w=w, h=h, r=r, note=note)
 
 
-def MV(caption, rows, cols=None, rowLabels=None, note=None):
-    """2D ঘরের ছবি। rows: [[(লেখা, state), ...], ...] | state: n z o w a s v p"""
-    return dict(kind="mat", caption=caption, cols=cols, rowLabels=rowLabels, note=note,
-                rows=[[dict(t=str(t), s=s) for t, s in r] for r in rows])
+def MV(caption, rows, cols=None, rowLabels=None, note=None, legend=None):
+    """2D ঘরের ছবি। rows: [[(লেখা, state), ...], ...] | state: n z o w a s v p
+    legend: [(state, লেখা), ...] দিলে ছবির নিচে সেই অর্থ দেখায় (না দিলে graph এর ডিফল্ট অর্থ)"""
+    d = dict(kind="mat", caption=caption, cols=cols, rowLabels=rowLabels, note=note,
+             rows=[[dict(t=str(t), s=s) for t, s in r] for r in rows])
+    if legend:
+        d["legend"] = [list(x) for x in legend]
+    return d
 
 
 # নমুনা গ্রাফ G1 (৬ node, ৭ edge) এর জায়গা

@@ -6,7 +6,7 @@ import Rich from "./Rich";
 import Steps from "./Steps";
 import TraceTable from "./TraceTable";
 import { BitGroup } from "./BitViz";
-import { BulbIcon, WarnIcon, ListIcon, EyeIcon, TargetIcon, ClockIcon, ArrowIcon } from "./Icons";
+import { BulbIcon, WarnIcon, ListIcon, EyeIcon, TargetIcon, ClockIcon, ArrowIcon, BookIcon } from "./Icons";
 
 function Toc({ page, onOpen, onDone }) {
   return (
@@ -100,6 +100,35 @@ export default function LessonPage({ page, i, onOpen, onIndex }) {
                 </div>
               )}
             </div>
+          )}
+
+          {page.blog?.length > 0 && (
+            <section className={`mt-8 rounded-3xl border bg-white p-5 shadow-sm sm:p-7 ${k.border}`}>
+              <h2 className="flex items-center gap-2 text-xl sm:text-2xl"><BookIcon width={26} height={26} className={k.text} />ব্লগ — গল্পে গল্পে বুঝি</h2>
+              <div className="mt-5 space-y-7">
+                {page.blog.map((s, si) => (
+                  <div key={si}>
+                    <h3 className="flex items-start gap-3 text-lg sm:text-xl">
+                      <span className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full text-base text-white ${k.dot}`}>{bn(si + 1)}</span>
+                      <span>{s.h}</span>
+                    </h3>
+                    <div className="mt-3 space-y-3 pl-0 sm:pl-11">
+                      {s.p.map((para, pi) => <p key={pi} className="text-base leading-relaxed text-slate-800"><Rich text={para} /></p>)}
+                      {s.ul.length > 0 && (
+                        <ul className="space-y-2">
+                          {s.ul.map((li, li2) => (
+                            <li key={li2} className="flex gap-2.5 text-base leading-relaxed text-slate-800">
+                              <ArrowIcon width={18} height={18} className={`mt-2 shrink-0 ${k.text}`} /><span><Rich text={li} /></span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {s.table && <TraceTable t={s.table} />}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
           )}
 
           {page.truth && <TraceTable t={page.truth} />}

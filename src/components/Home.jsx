@@ -5,6 +5,7 @@ import Reveal from "./Reveal";
 import SieveAnim from "./SieveAnim";
 import BinaryCounter from "./BinaryCounter";
 import BfsDfsAnim from "./BfsDfsAnim";
+import KnapsackAnim from "./KnapsackAnim";
 import HeroBitDemo from "./HeroBitDemo";
 import TipTerminal from "./TipTerminal";
 import { BoxIcon, BitIcon, SigmaIcon, LoopIcon, GraphIcon, CheckIcon, ArrowIcon, CodeIcon, EyeIcon, ListIcon, TableIcon, WarnIcon, BookIcon, PlayIcon } from "./Icons";
@@ -31,7 +32,7 @@ const road = [
   { t: "নিজে হাতে চালাও", d: "উদাহরণের input বদলাও, কোড ভাঙো, আবার জোড়া লাগাও। ভুল করেই শেখা হয়।", to: null, b: "কীভাবে চালাবে ↓" },
 ];
 
-const popular = ["vector-push_back", "algo-sort", "map-frequency", "bit-xor", "bit-check-set", "is_powerOF2", "nt-sieve-bitset", "nt-gcd", "nt-binary-exponentiation", "nt-euler-phi", "rec-memo", "graph-bfs", "graph-dfs", "graph-dijkstra", "graph-dsu", "graph-kruskal"].filter((id) => index[id] !== undefined);
+const popular = ["vector-push_back", "algo-sort", "map-frequency", "bit-xor", "bit-check-set", "is_powerOF2", "nt-sieve-bitset", "nt-gcd", "nt-binary-exponentiation", "nt-euler-phi", "rec-memo", "rec-knapsack-01", "rec-knapsack-fractional", "graph-bfs", "graph-dfs", "graph-dijkstra", "graph-dsu", "graph-kruskal"].filter((id) => index[id] !== undefined);
 
 export default function Home({ onSelect, onOpen }) {
   return (
@@ -47,7 +48,7 @@ export default function Home({ onSelect, onOpen }) {
           <div className="animate-fade-up">
             <p className="inline-block rounded-full border border-white/25 bg-white/10 px-4 py-1 text-base font-semibold text-emerald-200">কম্পিটিটিভ প্রোগ্রামিং পাঠশালা • বাংলায়</p>
             <h1 className="mt-4 text-xl sm:text-2xl lg:text-5xl">STL থেকে গ্রাফ থিওরি — কম্পিটিটিভ প্রোগ্রামিং শিখি বাংলায়</h1>
-            <p className="mt-4 text-base text-white/90 sm:text-lg">প্রতিটা function-এর জন্য আলাদা পেজ — কোড, input, output আর <strong className="text-amber-300">ধাপে ধাপে ব্যাখ্যা</strong>। বিটের ছবি, গ্রাফের node-edge আর হিসাবের টেবিল দেখে দেখে শেখো, কঠিন জিনিসও জলের মতো সোজা।</p>
+            <p className="mt-4 text-base text-white/90 sm:text-lg">প্রতিটা function-এর জন্য আলাদা পেজ — কোড, input, output আর <strong className="text-amber-300">ধাপে ধাপে ব্যাখ্যা</strong>। বিটের ছবি, গ্রাফের node-edge আর হিসাবের টেবিল দেখে দেখে শেখো, কঠিন জিনিসও পানির মতো সোজা।</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <button onClick={() => onOpen(groupPages("stl")[0].id)} className="flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-base font-bold text-brand-ink shadow hover:bg-emerald-50">STL শুরু করো <ArrowIcon /></button>
               <button onClick={() => onSelect("bits")} className="rounded-xl border border-white/50 px-5 py-3 text-base font-bold text-white hover:bg-white/10">বিটের মজা</button>
@@ -243,6 +244,69 @@ export default function Home({ onSelect, onOpen }) {
             <p className="rounded-xl bg-rose-50 p-3 ring-1 ring-rose-200"><strong className="text-rose-700">কম ধাপে পৌঁছানো</strong><br />unweighted graph এ shortest path, maze, level অনুযায়ী কাজ → <strong>BFS</strong></p>
             <p className="rounded-xl bg-violet-50 p-3 ring-1 ring-violet-200"><strong className="text-violet-700">সব ঘুরে দেখা</strong><br />cycle, connected component, topological sort, সব পথ খোঁজা → <strong>DFS</strong></p>
             <p className="rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200"><strong className="text-amber-700">edge এ আলাদা খরচ?</strong><br />weight থাকলে BFS চলে না — <button onClick={() => onOpen("graph-dijkstra")} className="font-bold text-amber-800 underline">Dijkstra</button> লাগবে (negative cycle থাকলে Bellman-Ford)</p>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* ───── 0/1 Knapsack লাইভ অ্যানিমেশন ───── */}
+      <Reveal as="section" className="border-y border-purple-200 bg-purple-50/60">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
+          <div className="grid items-start gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-sm font-bold text-purple-700">লাইভ অ্যানিমেশন · রিকার্সন ও DP</p>
+              <h2 className="mt-1 text-xl sm:text-2xl">0/1 Knapsack — ব্যাগে কী কী নেবো?</h2>
+              <p className="mt-2 text-base text-slate-600">সাজেকে ট্রেকিংয়ে যাচ্ছো, কিন্তু ব্যাগে সর্বোচ্চ ৮ কেজি নেওয়া যায়। প্রতিটা জিনিসের ওজন আছে, আর আছে কাজে লাগার মূল্য। প্রতিটা জিনিস হয় পুরোটা নেবে, নয়তো একদম নেবে না (0 বা 1)। কোন কোন জিনিস নিলে মোট মূল্য সবচেয়ে বেশি হবে?</p>
+              <ul className="mt-3 space-y-1.5 text-base text-slate-700">
+                <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-purple-600" /><span>প্রতিটা ঘর <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">dp[i][j]</code> বলছে: প্রথম <strong>i</strong> টা জিনিস থেকে <strong>j</strong> কেজির ব্যাগে সর্বোচ্চ কত মূল্য পাওয়া যায়।</span></li>
+                <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-sky-600" /><span>প্রতিটা ঘরে মাত্র দুই পথ: জিনিসটা <strong>না নিলে</strong> উপরের ঘর, আর <strong>নিলে</strong> ওজন কমিয়ে বাঁয়ে-উপরের ঘর + মূল্য। যেটা বড়, সেটাই উত্তর।</span></li>
+                <li className="flex items-start gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-rose-600" /><span>টেবিল ভরা শেষ হলে ডান-নিচের ঘর থেকে উল্টো দিকে হাঁটলে (rose রঙ) জানা যায় আসলে কোন কোন জিনিস নিয়েছি।</span></li>
+              </ul>
+              <p className="mt-3 text-base text-slate-600">“পরের সারি” চেপে এক জিনিস শেষ করে পরের জিনিসে চলে যাও, অথবা “পরের ধাপ” চেপে একটা একটা করে ঘর ভরো।</p>
+            </div>
+            <KnapsackAnim onOpen={onOpen} />
+          </div>
+
+          {/* ধারণার কার্ড */}
+          <div className="mt-10 grid items-stretch gap-6 md:grid-cols-2">
+            <article className="flex h-full flex-col rounded-3xl border border-purple-200 bg-white p-6 shadow-sm">
+              <div className="flex items-center gap-3">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-purple-100 text-lg font-bold text-purple-700">0/1</span>
+                <div><h3 className="text-xl">নিলে পুরোটা, নইলে একদমই না</h3><p className="text-sm text-slate-500">0/1 Knapsack · Dynamic Programming</p></div>
+              </div>
+              <ul className="mt-4 flex-1 space-y-2.5 text-base text-slate-700">
+                <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-purple-600" /><span><strong>real life:</strong> সীমিত বাজেটে কোন কোন প্রজেক্টে টাকা ঢালবে, কার্গো ট্রাকে কোন কোন বাক্স তুলবে, পরীক্ষায় সময় কম থাকলে কোন কোন প্রশ্নের উত্তর দেবে।</span></li>
+                <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-purple-600" /><span><strong>লোভী পদ্ধতি এখানে ঠকে:</strong> “প্রতি কেজিতে সবচেয়ে বেশি মূল্য যার, তাকে আগে নাও” — এই লোভী নিয়মে এই উদাহরণেই ১১ আসে, অথচ সঠিক উত্তর ১২। তাই DP লাগে।</span></li>
+                <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-purple-600" /><span><strong>খরচ:</strong> <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">O(n × W)</code> সময়। শুধু আগের সারি লাগে বলে মেমরি কমিয়ে <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">O(W)</code> করা যায়।</span></li>
+              </ul>
+              <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1">
+                <button onClick={() => onOpen("rec-knapsack-01")} className="text-base font-bold text-purple-700 hover:underline">0/1 Knapsack ব্লগ →</button>
+              </div>
+            </article>
+
+            <article className="flex h-full flex-col rounded-3xl border border-amber-200 bg-white p-6 shadow-sm">
+              <div className="flex items-center gap-3">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-amber-100 text-lg font-bold text-amber-700">Fr</span>
+                <div><h3 className="text-xl">ভাগ করে নেওয়া যায়</h3><p className="text-sm text-slate-500">Fractional Knapsack · Greedy</p></div>
+              </div>
+              <ul className="mt-4 flex-1 space-y-2.5 text-base text-slate-700">
+                <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-amber-600" /><span><strong>real life:</strong> খাতুনগঞ্জের বাজারে চাল, ডাল, মসলা কেনা। যেকোনো জিনিসের অর্ধেক বা সিকি ভাগও নেওয়া যায়।</span></li>
+                <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-amber-600" /><span><strong>এখানে লোভী পদ্ধতিই সঠিক:</strong> প্রতি কেজিতে সবচেয়ে বেশি মূল্য (value ÷ weight) যার, তাকে আগে নাও। শেষ জিনিসটা জায়গা না হলে যতটুকু ধরে ততটুকুই নাও।</span></li>
+                <li className="flex gap-2"><CheckIcon width={18} height={18} className="mt-1.5 shrink-0 text-amber-600" /><span><strong>খরচ:</strong> শুধু sort এর খরচ, <code className="rounded bg-slate-100 px-1.5 font-mono text-[0.9em] font-semibold ring-1 ring-slate-200">O(n log n)</code>। DP table লাগে না।</span></li>
+              </ul>
+              <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1">
+                <button onClick={() => onOpen("rec-knapsack-fractional")} className="text-base font-bold text-amber-700 hover:underline">Fractional Knapsack ব্লগ →</button>
+              </div>
+            </article>
+          </div>
+
+          {/* কখন কোনটা */}
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
+            <h3 className="text-lg">কখন কোনটা?</h3>
+            <div className="mt-3 grid gap-3 text-base text-slate-700 sm:grid-cols-3">
+              <p className="rounded-xl bg-purple-50 p-3 ring-1 ring-purple-200"><strong className="text-purple-700">জিনিস ভাগ করা যায় না</strong><br />মোবাইল, ল্যাপটপ, প্রজেক্ট, প্রশ্ন — হয় পুরোটা, নয় কিছুই না → <strong>0/1 Knapsack (DP)</strong></p>
+              <p className="rounded-xl bg-amber-50 p-3 ring-1 ring-amber-200"><strong className="text-amber-700">জিনিস ভাগ করা যায়</strong><br />চাল, ডাল, তেল, মসলা — যতটুকু ইচ্ছা নেওয়া যায় → <strong>Fractional Knapsack (Greedy)</strong></p>
+              <p className="rounded-xl bg-sky-50 p-3 ring-1 ring-sky-200"><strong className="text-sky-700">ওজন (W) অনেক বড়?</strong><br />n × W টেবিল বানানো যায় না। মূল্য ছোট হলে ছক উল্টে নাও: <button onClick={() => onOpen("rec-knapsack-01")} className="font-bold text-sky-800 underline">dp[মূল্য] = সবচেয়ে কম ওজন</button></p>
+            </div>
           </div>
         </div>
       </Reveal>

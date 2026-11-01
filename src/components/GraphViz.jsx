@@ -109,7 +109,9 @@ export function MatFig({ g }) {
         </table>
       </div>
       <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-slate-600">
-        {used.map((s) => <span key={s} className="flex items-center gap-1.5"><i className={`h-3 w-3 rounded ${MLEG[s][0]}`} />{MLEG[s][1]}</span>)}
+        {g.legend
+          ? g.legend.map(([s, txt]) => <span key={s} className="flex items-center gap-1.5"><i className={`h-3 w-3 rounded ${CELL[s] || CELL.n}`} />{txt}</span>)
+          : used.map((s) => <span key={s} className="flex items-center gap-1.5"><i className={`h-3 w-3 rounded ${MLEG[s][0]}`} />{MLEG[s][1]}</span>)}
       </div>
       {g.note && <p className="mt-2 text-center text-base text-slate-600"><Rich text={g.note} /></p>}
     </>

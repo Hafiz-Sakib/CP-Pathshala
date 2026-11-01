@@ -5,8 +5,9 @@
     npm run build
 
 ## নতুন পেজ/উদাহরণ
-1. `gen/p_*.py` (`p_rec.py` রিকার্সন ও DP, `p_graph.py` গ্রাফ সহ) ফাইলে `P(...)` ও `E(...)` লেখো
+1. `gen/p_*.py` (`p_rec.py` রিকার্সন, DP ও Knapsack, `p_graph.py` গ্রাফ সহ) ফাইলে `P(...)` ও `E(...)` লেখো
 2. ধাপে ধাপে ব্যাখ্যা/ছবি/টেবিল দিতে `gen/e_bits.py`, `gen/e_nt1.py`, `gen/e_nt2.py`, `gen/e_rec.py`, `gen/e_graph1.py`, `gen/e_graph2.py` এ `EN(পেজ-id, intro, uses, tips, X(steps, viz, tables))` লেখো
+   - `BL(পেজ-id, S(শিরোনাম, [অনুচ্ছেদ], ul=[...], table=T(...)), ...)` = পেজের ব্লগ (গল্প + real life উদাহরণ)
    - `GV()` = গ্রাফের ছবি, `MV()` = ২D ঘর (matrix/grid/dp), `sims.py` = BFS/DFS/Dijkstra/MST simulation
    - `RB()/VB()` = বিটের ছবি, `VG()` = সংখ্যার গ্রিড (Sieve), `T()` = টেবিল
 3. `cd gen && python3 build.py`  (g++ লাগবে; আসল output `src/data/pages.json` এ বসে)
